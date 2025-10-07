@@ -1,7 +1,7 @@
 /*
  *
- * <Please put your name and userid here>
- *
+ * Jatin Jatin jja163
+ * *
  * bits.c - Source file with your solutions to the Lab.
  *          This is the file you will hand in to your instructor.
  *
@@ -140,45 +140,88 @@ NOTES:
 /*
  * bitAnd - x&y using only ~ and |
  *   Example: bitAnd(6, 5) = 4
+ *               0110   0101 = 0100
+ *               ~(~0110 | ~ 0101) = ~(1001|1010) = ~(1011) = 0100
  *   Legal ops: ~ |
  *   Max ops: 8
  *   Rating: 1
  */
-int bitAnd(int x, int y) { return 0; }
+int bitAnd(int x, int y) { 
+	return ~(~x | ~y);
+ }
 /*
  * bitXor - x^y using only ~ and &
  *   Example: bitXor(4, 5) = 1
+ *   		0100 0101 =0001
+ *		(~0100 & 0101) = (1011 & 0101) = (0001)
  *   Legal ops: ~ &
  *   Max ops: 14
  *   Rating: 1
  */
-int bitXor(int x, int y) { return 0; }
+int bitXor(int x, int y) { 
+	return (~x & y);
+}
 /*
  * thirdBits - return word with every third bit (starting from the LSB) set to 1
+ * 	0000 0000 0000 0000 
+ * 	0000 0000 0000 0000 | 0b1 = 0000 0000 0000 0001 << 3 = 0000 0000 0000 1000 | 0b1 = 0000 0000 0000 1001 << 3 =
+ * 	0000 0000 0100 1000 | 0b1 = 0000 0000 0100 1001 << 3..... not gonnna work, use 1001 maybe.
+ *
+ * 	0000 0000 0000 0000 | 0b9 = 0000 0000 0000 1001 << 6 = 0000 0010 0100 0000 | 0b9 = 0000 0010 0100 1001 << 6 = 1001 0010 0100 0000 |0b9 = 1001 0010 0100 1001
+ * 	0x00 x00x 00x0 0x00 1001 0010 0100 1001 << 15 (last/ first x (0x00) is 15 steps away from this) | 0000 0000 0000 0000 1001 0010 0100 1001 = 0100 1001 0010 0100 1001 0010 00100 1001    
+ * 	nope, need 8 
+ * 	0000 0000 0000 0000 0000 0000 0000 0000
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 8
  *   Rating: 1
  */
-int thirdBits(void) { return 0; }
+int thirdBits(void) {
+ 	int ans = 0b9;
+	ans = ans << 6 | 0b9 ;
+	ans = ans << 6 | 0b9;
+	ans = ans  | ans << 15;
+	return ans;
+}
 /*
  * getByte - Extract byte n from word x
  *   Bytes numbered from 0 (least significant) to 3 (most significant)
  *   Examples: getByte(0x12345678,1) = 0x56
+ *      n = 1;temp = n << 3 = 8;
+ *   	0x1	2   3	4	5  6	7    8	
+ *   	0001 0010 0011 0100 0101 0110 0111 1000 >> temp = 0000 0000 0001 0010 0011 0100 0101 0110 & 1111 1111 = 0101 0110  =0x56
+ *	1111 1111
+ *	max n  =3
+ *	0011 << 3 = 0001 1000 = 16 +8 = 24 , perfect i presume? yup 24 + 8 = 32 :) , so right shift with 24 will give us the first two bytes of the input. 		
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 6
  *   Rating: 2
  */
-int getByte(int x, int n) { return 0; }
+int getByte(int x, int n) {
+	int ans = x >> (n << 3);
+	int mask = 0b1111 1111;
+	// int mask = 0b11111111;
+	int ans = ans & mask;
+	return ans;
+	
+}
 /*
  * logicalShift - shift x to the right by n, using a logical shift
  *   Can assume that 0 <= n <= 31
  *   Examples: logicalShift(0x87654321,4) = 0x08765432
+ *   right shift by n, 
+ *
+ *	1
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 20
  *   Rating: 3
  */
 int logicalShift(int x, int n) {
-  int filter;
+  int filter = 0b11111111111111111111111111111111;
+  // 0b 	 1111 1111 1111 1111 1111 1111 1111 1111
+  int filter2 = 0b0;
+  int ans = x > n;
+
+
   return 0;
 }
 /*
